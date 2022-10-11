@@ -19,7 +19,7 @@ final class DetailView: UIView {
         didSet {
             releaseDateKeyLabel.text = "Release Date:"
             releaseDateKeyLabel.font = .boldSystemFont(ofSize: 17.0)
-            releaseDateLabel.text = releaseDate ?? "-"
+            releaseDateLabel.text = String((ISO8601DateFormatter().date(from: (releaseDate)!)?.description.dropLast(6))!) 
         }
     }
     

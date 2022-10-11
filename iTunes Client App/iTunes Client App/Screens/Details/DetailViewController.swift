@@ -17,7 +17,7 @@ final class DetailViewController: UIViewController {
             detailView.artwork = media?.artwork
             detailView.imageView.downloadImage(from: detailView.artwork)
             detailView.kind = media?.kind
-            detailView.releaseDate = String((ISO8601DateFormatter().date(from: (media?.releaseDate)!)?.description.dropLast(6))!)
+            detailView.releaseDate = media?.releaseDate
             detailView.artistName = media?.artistName
             detailView.genre = media?.primaryGenreName
             detailView.country = media?.country
@@ -28,7 +28,6 @@ final class DetailViewController: UIViewController {
         }
     }
     
-    //kind - release -  artistname - genre - country - price - contentad
     private let detailView = DetailView()
 
     override func viewDidLoad() {
@@ -79,7 +78,7 @@ final class DetailViewController: UIViewController {
         saveData.setValue(detailView.artistName, forKey: "artistName")
         saveData.setValue(title, forKey: "trackName")
         if let artwork = detailView.artwork { saveData.setValue(artwork.description, forKey: "artwork" ) }
-        saveData.setValue(detailView.releaseDate, forKey: "releaseDate")
+        saveData.setValue(detailView.releaseDate!, forKey: "releaseDate")
         saveData.setValue(detailView.country, forKey: "country")
         saveData.setValue(detailView.genre, forKey: "genre")
         saveData.setValue(detailView.price, forKey: "price")
@@ -93,25 +92,6 @@ final class DetailViewController: UIViewController {
         }
         NotificationCenter.default.post(name: NSNotification.Name.init("newData"), object: nil)
         return true
-    }
-    
-    private func convertDateFormatter(date: String) -> String {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"//this your string date format
-        dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
-        dateFormatter.locale = Locale(identifier: "your_loc_id")
-        let convertedDate = dateFormatter.date(from: date)
-
-        guard dateFormatter.date(from: date) != nil else {
-            assert(false, "no date from string")
-            return ""
-        }
-        dateFormatter.dateFormat = "HH:mm a"///this is what you want to convert format
-        dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
-        let timeStamp = dateFormatter.string(from: convertedDate!)
-        print(timeStamp)
-        return timeStamp
     }
     
     @objc private func btnFavoriteDidTap() {
