@@ -8,6 +8,15 @@
 import UIKit
 
 final class DetailView: UIView {
+    var trackId: Int? {
+        didSet {
+            trackIdKeyLabel.text = "Track ID:"
+//            trackIdKeyLabel.textAlignment = .left
+            trackIdKeyLabel.font = .boldSystemFont(ofSize: 17.0)
+            trackIdLabel.text = String(trackId!)
+//            trackIdLabel.textAlignment = .right
+        }
+    }
     var releaseDate: String? {
         didSet {
             releaseDateKeyLabel.text = "Release Date:"
@@ -48,7 +57,18 @@ final class DetailView: UIView {
         }
     }
     
+    var isFavorited = Bool()
+    var currency: String?
+    
     private(set) var imageView = UIImageView()
+    
+    private let trackIdKeyLabel = UILabel()
+    private let trackIdLabel = UILabel()
+    private lazy var trackIdStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [trackIdKeyLabel, UIView(), trackIdLabel])
+        stackView.axis = .horizontal
+        return stackView
+    }()
     
     private let releaseDateKeyLabel = UILabel()
     private let releaseDateLabel = UILabel()
@@ -101,7 +121,8 @@ final class DetailView: UIView {
             imageView.heightAnchor.constraint(equalToConstant: .screenWidth)
         ])
         
-        let stackView = UIStackView(arrangedSubviews: [releaseDateStackView,
+        let stackView = UIStackView(arrangedSubviews: [trackIdStackView,
+                                                       releaseDateStackView,
                                                        artistNameStackView,
                                                        countryStackView,
                                                        genresStackView])

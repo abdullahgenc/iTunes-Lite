@@ -47,14 +47,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+        
+        // Save changes in the application's managed object context when the application transitions to the background.
+        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
 
     private func setupWindow(with windowScene: UIWindowScene) {
         let window = UIWindow(windowScene: windowScene)
        
-        let images = ["house", "house", "house", "house", "house"]
-        let types = ["podcast", "movie", "music", "software", "ebook"]
+        let images = ["house", "house", "house", "house", "bookmark"]
+        let types = ["podcast", "movie", "music", "software"]
         var vcList = [UINavigationController]()
         
         for type in types {
@@ -64,6 +67,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let navigationController = UINavigationController(rootViewController: viewController)
             vcList.append(navigationController)
         }
+        
+        let viewController = FavoriteViewController()
+        viewController.title = "Favorites"
+        let navigationController = UINavigationController(rootViewController: viewController)
+        vcList.append(navigationController)
 
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = vcList

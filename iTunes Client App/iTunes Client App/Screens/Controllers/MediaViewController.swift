@@ -67,7 +67,6 @@ extension MediaViewController: UICollectionViewDataSource {
         cell.imageView.downloadImage(from: media?.artworkLarge)
         return cell
     }
-    
 }
 
 // MARK: - UISearchResultsUpdating
