@@ -56,7 +56,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func setupWindow(with windowScene: UIWindowScene) {
         let window = UIWindow(windowScene: windowScene)
        
-        let images = ["house", "house", "house", "house", "bookmark"]
+        let images = ["waveform.and.mic", "film", "music.quarternote.3", "terminal", "bookmark"]
         let types = ["podcast", "movie", "music", "software"]
         var vcList = [UINavigationController]()
         
