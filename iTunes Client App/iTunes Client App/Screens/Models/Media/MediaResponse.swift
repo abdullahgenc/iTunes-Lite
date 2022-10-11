@@ -8,5 +8,5 @@
 import Foundation
 
 struct MediaResponse: Decodable {
-    let results: [Media]?
+    let results: [ApiMedia]?
 }
