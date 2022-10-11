@@ -8,64 +8,75 @@
 import UIKit
 
 final class DetailView: UIView {
-    var trackId: Int? {
+    var kind: String? {
         didSet {
-            trackIdKeyLabel.text = "Track ID:"
-//            trackIdKeyLabel.textAlignment = .left
-            trackIdKeyLabel.font = .boldSystemFont(ofSize: 17.0)
-            trackIdLabel.text = String(trackId!)
-//            trackIdLabel.textAlignment = .right
+            kindKeyLabel.text = "Kind:"
+            kindKeyLabel.font = .boldSystemFont(ofSize: 17.0)
+            kindLabel.text = kind?.capitalized ?? "-"
         }
     }
     var releaseDate: String? {
         didSet {
             releaseDateKeyLabel.text = "Release Date:"
-//            releaseDateKeyLabel.textAlignment = .left
             releaseDateKeyLabel.font = .boldSystemFont(ofSize: 17.0)
             releaseDateLabel.text = releaseDate ?? "-"
-//            releaseDateLabel.textAlignment = .right
         }
     }
     
     var artistName: String? {
         didSet {
             artistNameKeyLabel.text = "Artist Name:"
-//            artistNameKeyLabel.textAlignment = .left
             artistNameKeyLabel.font = .boldSystemFont(ofSize: 17.0)
             artistNameLabel.text = artistName ?? "-"
-//            artistNameLabel.textAlignment = .right
+        }
+    }
+    
+    var genre: String? {
+        didSet {
+            genreKeyLabel.text = "Genre:"
+            genreKeyLabel.font = .boldSystemFont(ofSize: 17.0)
+            genreLabel.text = genre ?? "-"
         }
     }
     
     var country: String? {
         didSet {
             countryKeyLabel.text = "Country:"
-//            countryKeyLabel.textAlignment = .left
             countryKeyLabel.font = .boldSystemFont(ofSize: 17.0)
             countryLabel.text = country ?? "-"
-//            countryLabel.textAlignment = .right
         }
     }
     
-    var genres: String? {
+    var price: Double? {
         didSet {
-            genresKeyLabel.text = "Genres:"
-//            genresKeyLabel.textAlignment = .left
-            genresKeyLabel.font = .boldSystemFont(ofSize: 17.0)
-            genresLabel.text = genres ?? "-"
-//            genresLabel.textAlignment = .right
+            priceKeyLabel.text = "Price:"
+            priceKeyLabel.font = .boldSystemFont(ofSize: 17.0)
+            priceLabel.text = price?.description ?? "-"
+            if priceLabel.text == price?.description {
+                priceLabel.text! += "$"
+            }
+        }
+    }
+    
+    var contentAdvisoryRating: String? {
+        didSet {
+            contentAdvisoryRatingKeyLabel.text = "Content Advisory Rating:"
+            contentAdvisoryRatingKeyLabel.font = .boldSystemFont(ofSize: 17.0)
+            contentAdvisoryRatingLabel.text = contentAdvisoryRating ?? "-"
         }
     }
     
     var isFavorited = Bool()
+    var artwork: URL?
     var currency: String?
+    var trackId: Int?
     
     private(set) var imageView = UIImageView()
     
-    private let trackIdKeyLabel = UILabel()
-    private let trackIdLabel = UILabel()
-    private lazy var trackIdStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [trackIdKeyLabel, UIView(), trackIdLabel])
+    private let kindKeyLabel = UILabel()
+    private let kindLabel = UILabel()
+    private lazy var kindStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [kindKeyLabel, UIView(), kindLabel])
         stackView.axis = .horizontal
         return stackView
     }()
@@ -86,6 +97,14 @@ final class DetailView: UIView {
         return stackView
     }()
     
+    private var genreKeyLabel = UILabel()
+    private var genreLabel = UILabel()
+    private lazy var genreStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [genreKeyLabel, UIView(), genreLabel])
+        stackView.axis = .horizontal
+        return stackView
+    }()
+    
     private var countryKeyLabel = UILabel()
     private var countryLabel = UILabel()
     private lazy var countryStackView: UIStackView = {
@@ -94,10 +113,18 @@ final class DetailView: UIView {
         return stackView
     }()
     
-    private var genresKeyLabel = UILabel()
-    private var genresLabel = UILabel()
-    private lazy var genresStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [genresKeyLabel, UIView(), genresLabel])
+    private var priceKeyLabel = UILabel()
+    private var priceLabel = UILabel()
+    private lazy var priceStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [priceKeyLabel, UIView(), priceLabel])
+        stackView.axis = .horizontal
+        return stackView
+    }()
+    
+    private var contentAdvisoryRatingKeyLabel = UILabel()
+    private var contentAdvisoryRatingLabel = UILabel()
+    private lazy var contentAdvisoryRatingStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [contentAdvisoryRatingKeyLabel, UIView(), contentAdvisoryRatingLabel])
         stackView.axis = .horizontal
         return stackView
     }()
@@ -107,10 +134,13 @@ final class DetailView: UIView {
         
         backgroundColor = .white
         
+        kindLabel.numberOfLines = .zero
         releaseDateLabel.numberOfLines = .zero
         artistNameLabel.numberOfLines = .zero
+        genreLabel.numberOfLines = .zero
         countryLabel.numberOfLines = .zero
-        genresLabel.numberOfLines = .zero
+        priceLabel.numberOfLines = .zero
+        contentAdvisoryRatingLabel.numberOfLines = .zero
         
         addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -121,11 +151,13 @@ final class DetailView: UIView {
             imageView.heightAnchor.constraint(equalToConstant: .screenWidth)
         ])
         
-        let stackView = UIStackView(arrangedSubviews: [trackIdStackView,
+        let stackView = UIStackView(arrangedSubviews: [kindStackView,
                                                        releaseDateStackView,
                                                        artistNameStackView,
+                                                       genreStackView,
                                                        countryStackView,
-                                                       genresStackView])
+                                                       priceStackView,
+                                                       contentAdvisoryRatingStackView])
         stackView.axis = .vertical
         stackView.spacing = 8.0
         addSubview(stackView)

@@ -64,7 +64,7 @@ extension MediaViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MediaCollectionViewCell
         let media = mediaResponse?.results?[indexPath.row]
         cell.title = media?.trackName
-        cell.imageView.downloadImage(from: media?.artworkLarge)
+        cell.imageView.downloadImage(from: media?.artwork)
         return cell
     }
 }
